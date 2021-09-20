@@ -3,11 +3,11 @@
     "__comments": "Sample template to deploy a vCenter Server Appliance with an embedded Platform Services Controller on an ESXi host.",
     "new_vcsa": {
         "esxi": {
-            "hostname": "192.168.1.91",
+            "hostname": "PESX3_IP",
             "username": "root",
-            "password": "esxi_pwd",
+            "password": "PESX3_PWD",
             "deployment_network": "VM Network",
-            "datastore": "datastore1 (2)"
+            "datastore": "datastore1 (6)"
         },
         "appliance": {
             "__comments": [
@@ -20,21 +20,21 @@
         "network": {
             "ip_family": "ipv4",
             "mode": "static",
-            "ip": "192.168.3.252",
+            "ip": "VCENTER_IP",
             "dns_servers": [
-                "8.8.8.8"
+                "DNS_IMT_IP"
             ],
             "prefix": "24",
-            "gateway": "192.168.3.251",
-            "system_name": "192.168.3.252"
+            "gateway": "GATEWAY_IP",
+            "system_name": "VCENTER_IP"
         },
         "os": {
-            "password": "vsphere_pwd",
-            "ntp_servers": "fr.pool.ntp.org",
-            "ssh_enable": false
+            "password": "VCENTER_OS_PWD",
+            "ntp_servers": "NTP_IMT_IP",
+            "ssh_enable": true
         },
         "sso": {
-            "password": "admin_pwd",
+            "password": "VCENTER_SSO_PWD",
             "domain_name": "vsphere.local"
         }
     },
