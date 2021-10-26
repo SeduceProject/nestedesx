@@ -52,6 +52,8 @@
     "ovf_pwd": "superesx",
     "student_ovf": "./NFS_Java/NFS/NFS_Java.ova",
     "student_vm_name": "JavaNfs",
+    "student_vm_datastore_values": "smallest or largest",
+    "student_vm_datastore": "largest",
     "iso_prefix": "./Files/",
     "iso": []
   }

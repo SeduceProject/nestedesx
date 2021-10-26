@@ -14,6 +14,12 @@ $vConfig = $config.virtual_esx
 $studentOVF = $config.architecture.student_ovf
 # Name of the new VM
 $studentVMName = $config.architecture.student_vm_name
+# Selection of the datastore used to create the student VM
+if($config.architecture.student_vm_datastore -eq "smallest") {
+    $smallestDatastore = $true
+} else {
+    $smallestDatastore = $false
+}
 
 # Connection to vSphere
 Write-Host "Connecting to vSphere" -ForegroundColor $DefaultColor
@@ -70,13 +76,19 @@ foreach ($vmh in $vmhs) {
     catch {
         if ($vmh.ConnectionState -eq "Connected") {
             Write-Host ("Create the student VM on {0}" -f $vmh.Name) -ForegroundColor $DefaultColor
+            # Select the datastore
+            if($smallestDatastore) {
+                $ds = Get-VMHost $vmh | Get-Datastore | Sort-Object -Property "CapacityGB" | Select-Object -First 1
+            } else {
+                $ds = Get-VMHost $vmh | Get-Datastore | Sort-Object -Property "CapacityGB" -Descending | Select-Object -First 1
+            }
             if ($createFromClone) {
                 # Create the student VM from an existing VM
-                $studentVM = New-VM -VM $cloneSrc -VMHost $vmh -Name ($studentVMName + $nbStudentVM) -DiskStorageFormat Thin
+                $studentVM = New-VM -VM $cloneSrc -VMHost $vmh -Datastore $ds -Name ($studentVMName + $nbStudentVM) -DiskStorageFormat Thin
             }
             else {
                 # Create the student VM from OVF
-                $studentVM = Import-vApp -Source $studentOVF -VMHost $vmh -Name ($studentVMName + $nbStudentVM) -DiskStorageFormat Thin
+                $studentVM = Import-vApp -Source $studentOVF -VMHost $vmh -Datastore $ds -Name ($studentVMName + $nbStudentVM) -DiskStorageFormat Thin
                 $createFromClone = $true
                 $cloneSrc = $studentVM
             }
