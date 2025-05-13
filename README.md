@@ -214,6 +214,7 @@ sed -i 's#/system/uuid.*##' /etc/vmware/esx.conf
 /sbin/auto-backup.sh
 poweroff
 ```
+* **IMPORTANT: la dernière commande éteint l'ESXi, il ne faut pas le rallumer avant l'export en OVA sinon l'OVA ne sera pas fonctionnel**
 * Activer le *SSH client* à partir de l'interface web de l'ESXi
   * Networking > Firewall Rules > SSH client > Enable
 * Création de l'OVF à partir d'un shell PowerShell (la connexion au vCenter doit être exécutée au préalable *vcenter-connect.ps1*)
